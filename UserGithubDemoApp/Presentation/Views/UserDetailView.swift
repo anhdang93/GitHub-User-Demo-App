@@ -6,17 +6,15 @@
 //
 
 
+import Combine
 import SwiftUI
 
 struct UserDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: UserDetailViewModel
 
-    init(name: String) {
-        let useCase = GetUserDetailUseCase(repository: ServiceLocator.shared.resolve())
-        _viewModel = StateObject(
-            wrappedValue: UserDetailViewModel(name: name, useCase: useCase)
-        )
+    init(viewModel: UserDetailViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
@@ -93,5 +91,8 @@ struct UserDetailView: View {
 }
 
 #Preview {
-    UserDetailView(name: "mojombo")
+    let repository = PreviewUserRepository()
+    let useCase = GetUserDetailUseCase(repository: repository)
+    let viewModel = UserDetailViewModel(name: "mojombo", useCase: useCase)
+    UserDetailView(viewModel: viewModel)
 }

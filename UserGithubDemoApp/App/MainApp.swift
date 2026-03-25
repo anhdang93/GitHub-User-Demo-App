@@ -24,23 +24,10 @@ struct MainApp: App {
         }
     }()
 
-    init() {
-        registerService()
-    }
-
     var body: some Scene {
         WindowGroup {
-            UserListView()
+            AppRootView(modelContainer: sharedModelContainer)
         }
         .modelContainer(sharedModelContainer)
-    }
-
-    @MainActor
-    private func registerService() {
-        let remoteDataSource = RemoteDataSource(remoteService: NetworkServiceProvider())
-        let localDataSource = LocalDataSource(modelContext: sharedModelContainer.mainContext)
-        let userRepository = UserRepositoryImpl(remoteDataSource: remoteDataSource, localDataSource: localDataSource)
-
-        ServiceLocator.shared.register(userRepository as UserRepository)
     }
 }

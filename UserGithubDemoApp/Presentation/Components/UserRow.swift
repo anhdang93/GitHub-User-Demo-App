@@ -42,12 +42,11 @@ struct UserRow: View {
                 Text(viewModel.name)
                 Divider()
                 if viewModel.type == .list, let gitHubLink = viewModel.gitHubLink {
-                    Text(gitHubLink.absoluteString)
-                        .foregroundStyle(.blue)
-                        .underline()
-                        .onTapGesture {
-                            viewModel.openGitHubLink()
-                        }
+                    Link(destination: gitHubLink) {
+                        Text(gitHubLink.absoluteString)
+                            .foregroundStyle(.blue)
+                            .underline()
+                    }
                 } else {
                     HStack {
                         Image(systemName: "location.circle.fill")
